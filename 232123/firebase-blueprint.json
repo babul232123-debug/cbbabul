@@ -1,0 +1,121 @@
+{
+  "entities": {
+    "AppSettings": {
+      "title": "AppSettings",
+      "description": "Application settings and global announcements",
+      "type": "object",
+      "properties": {
+        "adminProfile": {
+          "type": "object",
+          "description": "Profile of the administrator / spiritual guide"
+        },
+        "realPhoto": {
+          "type": "string",
+          "description": "Divine decoration photo representation"
+        },
+        "trainPhoto": {
+          "type": "string",
+          "description": "Train travel photo representation"
+        },
+        "journeyDate": {
+          "type": "string"
+        },
+        "ticketPrice": {
+          "type": "string"
+        },
+        "journeyInfo": {
+          "type": "string"
+        },
+        "notification": {
+          "type": "string"
+        },
+        "emergencyNotice": {
+          "type": "string"
+        },
+        "dailyNotice": {
+          "type": "string"
+        },
+        "specialOffer": {
+          "type": "string"
+        },
+        "termsAndConditions": {
+          "type": "string"
+        },
+        "touristPlaces": {
+          "type": "array"
+        },
+        "gallery": {
+          "type": "array"
+        }
+      }
+    },
+    "Passenger": {
+      "title": "Passenger",
+      "description": "A registered pilgrim record containing booking info, documents, and payments",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "photo": {
+          "type": "string"
+        },
+        "aadharPhoto": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "fatherName": {
+          "type": "string"
+        },
+        "age": {
+          "type": "string"
+        },
+        "gender": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "aadhar": {
+          "type": "string"
+        },
+        "mobile": {
+          "type": "string"
+        },
+        "bookingDate": {
+          "type": "string"
+        },
+        "advance": {
+          "type": "string"
+        },
+        "totalFare": {
+          "type": "string"
+        },
+        "due": {
+          "type": "string"
+        },
+        "transactions": {
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "mobile",
+        "totalFare"
+      ]
+    }
+  },
+  "firestore": {
+    "/settings/app": {
+      "schema": "AppSettings",
+      "description": "Global application config and bulletin boards"
+    },
+    "/passengers/{passengerId}": {
+      "schema": "Passenger",
+      "description": "Pilgrim record documents"
+    }
+  }
+}
