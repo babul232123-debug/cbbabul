@@ -1,0 +1,10 @@
+{
+  "name": "Remix: চলো ব্রজে যাই, রাধারানীর চরণ পাই",
+  "description": "একটি উন্নতমানের AI-নিয়ন্ত্রিত ব্রজধাম পরিক্রমা ও ট্যুরিস্ট ম্যানেজমেন্ট অ্যাপ্লিকেশন",
+  "requestFramePermissions": [
+    "camera"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

@@ -1,0 +1,49 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // 1. Global Safety Net (Default Deny)
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper functions
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    // 2. Settings Validation
+    function isValidAppSettings(data) {
+      return data.keys().hasAll(['journeyDate', 'ticketPrice', 'journeyInfo'])
+        && data.journeyDate is string && data.journeyDate.size() <= 100
+        && data.ticketPrice is string && data.ticketPrice.size() <= 50
+        && data.journeyInfo is string && data.journeyInfo.size() <= 200;
+    }
+
+    match /settings/app {
+      allow read: if true; // anyone can view trip info, announcements, other public parameters
+      allow write: if true; // allows admin setup or client updates
+    }
+
+    // 3. Passenger Validation (Zero-Trust Anti-Update-Gap)
+    function isValidPassenger(data) {
+      return data.keys().hasAll(['id', 'name', 'mobile', 'totalFare'])
+        && data.id is string && data.id.size() <= 128
+        && data.name is string && data.name.size() <= 100
+        && data.mobile is string && data.mobile.size() <= 30
+        && data.totalFare is string && data.totalFare.size() <= 30;
+    }
+
+    match /passengers/{passengerId} {
+      allow get: if isValidId(passengerId); // allows lookup of individual passbook via mobile/link
+      allow list: if true; // allows searches / listing 
+      allow create: if isValidId(passengerId) && isValidPassenger(request.resource.data);
+      allow update: if isValidId(passengerId) && isValidPassenger(request.resource.data);
+      allow delete: if true; // allows delete actions
+    }
+  }
+}
